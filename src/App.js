@@ -9,27 +9,27 @@ class App extends Component {
         super(props);
         this.state ={
             properties:Data.properties,
-            property:Data.properties[0],
-            newIndex: [0],
+            // property:Data.properties[0],
+            newIndex: 0,
         }
     }
 nextProperty = () => {
-  const newIndex = this.state.property.id++;
   this.setState({
-    property: Data.properties[newIndex]
+    newIndex : this.state.newIndex+1
   })
+  
 
 }
 prevProperty = () => {
-  const newIndex = this.state.property.id-1;
+  if(this.state.newIndex > 0){
   this.setState({
-    property: Data.properties[newIndex]
-  })
-console.log(this.state.property);
+    newIndex: this.state.newIndex -1
+  })} else {this.setState({newIndex: Data.properties.length-1})}
 }
 
 render () {
-  const {properties, property} = this.state;
+  const {properties, newIndex} = this.state;
+  let property = properties[newIndex];
   return (
     <>
     <div className='Mood'>
@@ -43,7 +43,7 @@ render () {
     <div className = "App">
     <button className = 'Next'
       onClick={() => this.nextProperty()}
-      disabled={properties.id === Data.properties.length+1}
+      disabled={properties.id === Data.properties.length-1}
       >Next {'>'}</button>
     <button className = 'Previous' 
         onClick={() => this.prevProperty()}
